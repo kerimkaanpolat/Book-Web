@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Book_Web.Models.Order>
+
+<h2>Orders</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order Date</th>
+            <th>Customer Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Postal Code</th>
+            <th>Items</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderDate</td>
+                <td>@order.CustomerName</td>
+                <td>@order.Address</td>
+                <td>@order.City</td>
+                <td>@order.PostalCode</td>
+                <td>
+                    <ul>
+                        @foreach (var item in order.Items)
+                        {
+                            <li>@item.Book.Title - Quantity: @item.Quantity</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

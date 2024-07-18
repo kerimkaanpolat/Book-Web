@@ -1,0 +1,51 @@
+﻿@model List<Book_Web.Models.Book>
+
+<form asp-action="Index" method="get">
+    <div>
+        <a asp-action="Create" class="btn btn-primary">Create a Book</a>
+    </div>
+    <div class="form-group">
+        <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control" placeholder="Search by Title,Type or Author " />
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Author</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Stock</th>
+            <th>Seller</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Id</td>
+                <td>@book.Title</td>
+                <td>@book.Type</td>
+                <td>@book.Author</td>
+                <td>@book.Price</td>
+                <td>@book.Description</td>
+                <td>@book.Stock</td>
+                <td>@book.Seller</td>
+                <td>
+                    <form action="/Home/AddToCart" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="bookId" value="@book.Id" />
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                    <a asp-action="Edit" asp-route-id="@book.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@book.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@book.Id">Delete</a>
+                     </td>
+            </tr>
+        }
+    </tbody>
+</table>
