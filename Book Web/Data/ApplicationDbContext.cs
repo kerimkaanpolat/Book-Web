@@ -11,7 +11,7 @@ namespace Book_Web.Data
         {
         }
 
-        // Veritabanı tablolarını buraya ekleyin
+        
         public DbSet<Book> Books { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -24,7 +24,7 @@ namespace Book_Web.Data
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.Book)
                 .WithMany()
-                .HasForeignKey(oi => oi.BookId);
+                .HasForeignKey(oi => oi.BookId);//her sipariş bir kitapla ilişkili
 
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.Order)

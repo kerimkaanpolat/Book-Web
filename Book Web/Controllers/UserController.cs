@@ -51,10 +51,12 @@ namespace Book_Web.Controllers
             var user = dbContext.Users.FirstOrDefault(x => x.Email == loginDTO.Email && x.Password == loginDTO.Password);
             if (user != null)
             {
-                return Ok("user");
+                return Ok("Login success");
             }
-
-            return NoContent();
+            else
+            {
+                return NoContent();
+            }
         }
 
         [HttpGet]

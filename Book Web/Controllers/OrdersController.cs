@@ -28,8 +28,7 @@ namespace Book_Web.Controllers
 
         [HttpGet]
         public IActionResult Checkout()
-        {
-            // Burada checkout işlemiyle ilgili kodlar olabilir
+        { 
             return View();
         }
 

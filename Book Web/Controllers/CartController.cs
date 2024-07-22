@@ -27,6 +27,7 @@ namespace Book_Web.Controllers
             return View(cartItems);
         }
 
+        //Sepete Ekleme
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCart(int bookId)
@@ -63,6 +64,7 @@ namespace Book_Web.Controllers
             return RedirectToAction("Index");
         }
 
+        //Sepetten Çıkartma
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveFromCart(int id)
@@ -119,7 +121,7 @@ namespace Book_Web.Controllers
                     Quantity = item.Quantity
                 });
 
-                // Decrease the stock quantity of the book
+                // Kitabın sepetteki sayısını azaltıyor
                 var book = _context.Books.FirstOrDefault(b => b.Id == item.BookId);
                 if (book != null)
                 {
@@ -136,8 +138,6 @@ namespace Book_Web.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception and show an error message to the user
-                // For example: _logger.LogError(ex, "Error occurred while saving the order.");
                 ModelState.AddModelError(string.Empty, "An error occurred while processing your order. Please try again.");
                 return View();
             }

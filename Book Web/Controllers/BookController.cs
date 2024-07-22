@@ -113,8 +113,8 @@ namespace Book_Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(book);
-        }   
-
+        }
+        [HttpDelete]
         public IActionResult Delete(int? id)
         {
             if (id == null)
