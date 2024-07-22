@@ -9,10 +9,12 @@ namespace Book_Web.Controllers
     public class UserController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
-        public UserController(ApplicationDbContext dbContext) 
+        public UserController(ApplicationDbContext dbContext)
         {
-        this.dbContext = dbContext;
+            this.dbContext = dbContext;
         }
+
+
 
         [HttpPost]
         [Route("Registeration")]
@@ -44,7 +46,7 @@ namespace Book_Web.Controllers
         }
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(LoginDTO loginDTO)
+        public IActionResult IsLogin(LoginDTO loginDTO)
         {
             var user = dbContext.Users.FirstOrDefault(x => x.Email == loginDTO.Email && x.Password == loginDTO.Password);
             if (user != null)
