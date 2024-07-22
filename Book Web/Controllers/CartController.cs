@@ -81,6 +81,9 @@ namespace Book_Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
+
         // Sipariş Verme
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -92,8 +95,9 @@ namespace Book_Web.Controllers
             }
 
             var cartItems = await _context.CartItems.Include(c => c.Book).ToListAsync();
-            if (cartItems.Count == 0)
+            if (cartItems == null || !cartItems.Any())
             {
+                // Consider showing a message to the user indicating the cart is empty
                 return RedirectToAction(nameof(Index));
             }
 
@@ -104,7 +108,7 @@ namespace Book_Web.Controllers
                 Address = Address,
                 City = City,
                 PostalCode = PostalCode,
-                Items = new List<OrderItem>() // OrderItem listesi oluşturun
+                Items = new List<OrderItem>()
             };
 
             foreach (var item in cartItems)
@@ -114,22 +118,32 @@ namespace Book_Web.Controllers
                     BookId = item.BookId,
                     Quantity = item.Quantity
                 });
+
+                // Decrease the stock quantity of the book
+                var book = _context.Books.FirstOrDefault(b => b.Id == item.BookId);
+                if (book != null)
+                {
+                    book.Stock += item.Quantity;
+                }
+
+                _context.CartItems.Remove(item);
             }
 
             _context.Orders.Add(order);
-            _context.CartItems.RemoveRange(cartItems);
-
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                // Hata durumunda gerekli işlemler
-                throw;
+                // Log the exception and show an error message to the user
+                // For example: _logger.LogError(ex, "Error occurred while saving the order.");
+                ModelState.AddModelError(string.Empty, "An error occurred while processing your order. Please try again.");
+                return View();
             }
 
             return RedirectToAction("Index", "Orders");
-        }
+        } 
+
     }
 }

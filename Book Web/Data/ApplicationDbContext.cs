@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Book_Web.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Book_Web.Data
 {
@@ -15,7 +16,7 @@ namespace Book_Web.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-
+        public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -35,5 +36,6 @@ namespace Book_Web.Data
                 .WithMany()
                 .HasForeignKey(ci => ci.BookId);
         }
+
     }
 }
